@@ -113,8 +113,8 @@ export class SupabaseService {
   private getDefaultData(): AdminData {
     return {
       settings: {
-        whatsappNumber: '919876543210',
-        inquiryEmail: 'info@taclasercutting.com',
+        whatsappNumber: '9687817730',
+        inquiryEmail: '',
         phoneDisplay: '+91 98765 43210',
         address: 'TAC Laser Cutting, Surat, Gujarat, India',
         socialLinks: {
