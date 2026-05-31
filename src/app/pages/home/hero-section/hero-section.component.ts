@@ -95,8 +95,8 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     purpleLight.position.set(20, 10, 10);
     this.scene.add(purpleLight);
 
-    // 1. The Metal Sheet
-    const sheetGeo = new THREE.PlaneGeometry(100, 100, 64, 64);
+    // 1. The Metal Sheet - Made massive (300x300) so edges are never visible when rotated
+    const sheetGeo = new THREE.PlaneGeometry(300, 300, 64, 64);
     const sheetMat = new THREE.MeshStandardMaterial({
       color: 0x111318,
       roughness: 0.5,
@@ -107,14 +107,14 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     this.scene.add(this.metalSheet);
 
     // Add a glowing grid helper for a cyberpunk/colorful industrial look
-    const grid = new THREE.GridHelper(100, 50, 0x00d2ff, 0x112233);
+    const grid = new THREE.GridHelper(300, 150, 0x00d2ff, 0x112233);
     grid.position.y = 0.01;
     grid.material.transparent = true;
     grid.material.opacity = 0.3;
     this.scene.add(grid);
 
-    // 2. The Laser Beam
-    this.laserLight = new THREE.PointLight(0xffaa00, 800, 25);
+    // 2. The Laser Beam - Increased intensity for brightness
+    this.laserLight = new THREE.PointLight(0xffbb00, 1500, 40);
     this.scene.add(this.laserLight);
 
     const beamGeo = new THREE.CylinderGeometry(0.1, 0.1, 20, 8);
@@ -127,15 +127,15 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     this.laserBeam = new THREE.Mesh(beamGeo, beamMat);
     this.scene.add(this.laserBeam);
 
-    // 3. The Cut Trail
+    // 3. The Cut Trail - Increased brightness and linewidth
     const trailGeo = new THREE.BufferGeometry();
     trailGeo.setAttribute('position', new THREE.BufferAttribute(this.trailVertices, 3));
     trailGeo.setDrawRange(0, 0);
     const trailMat = new THREE.LineBasicMaterial({ 
-      color: 0xff3300, 
-      linewidth: 4, 
+      color: 0xff4400, 
+      linewidth: 6, 
       transparent: true, 
-      opacity: 0.9,
+      opacity: 1,
       blending: THREE.AdditiveBlending
     });
     this.cutTrail = new THREE.Line(trailGeo, trailMat);
@@ -184,7 +184,7 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
         }
       });
 
-      // Center the path
+      // Center the path, but optionally shift it if needed
       const box = new THREE.Box3().setFromPoints(allPoints);
       const center = box.getCenter(new THREE.Vector3());
       allPoints.forEach(p => {
@@ -319,12 +319,15 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     if (!this.camera || !this.renderer) return;
     
     const isMobile = window.innerWidth < 768;
-    this.baseCameraY = isMobile ? 35 : 25;
-    this.baseCameraZ = isMobile ? 45 : 25;
+    // Lowered Y and Z slightly to push the board up and fill the screen more tightly
+    this.baseCameraY = isMobile ? 30 : 25;
+    this.baseCameraZ = isMobile ? 40 : 25;
     
     if (this.scene) {
       // Rotate the scene diagonally on mobile so it fits the portrait aspect ratio beautifully
       this.scene.rotation.y = isMobile ? Math.PI / 4 : 0;
+      // Shift the scene slightly back/up to center the text better on mobile
+      this.scene.position.set(isMobile ? -2 : 0, 0, isMobile ? -5 : 0);
     }
 
     this.camera.aspect = window.innerWidth / window.innerHeight;
