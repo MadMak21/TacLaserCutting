@@ -50,6 +50,8 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
   // Interaction
   private mouse = new THREE.Vector2();
   private targetMouse = new THREE.Vector2();
+  private baseCameraZ = 25;
+  private baseCameraY = 25;
 
   constructor() {
     this.preloader.registerAsset();
@@ -199,6 +201,10 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     // Event Listeners
     window.addEventListener('resize', this.onWindowResize.bind(this));
     window.addEventListener('mousemove', this.onMouseMove.bind(this));
+    window.addEventListener('touchmove', this.onTouchMove.bind(this), { passive: true });
+    
+    // Setup initial mobile layout
+    this.onWindowResize();
   }
 
   private animate = (): void => {
@@ -211,7 +217,8 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     this.mouse.y += (this.targetMouse.y - this.mouse.y) * 0.05;
     
     this.camera.position.x = this.mouse.x * 10;
-    this.camera.position.z = 25 + this.mouse.y * 10;
+    this.camera.position.z = this.baseCameraZ + this.mouse.y * 10;
+    this.camera.position.y = this.baseCameraY;
     this.camera.lookAt(0, 0, 0);
 
     // Update Laser Position
@@ -301,8 +308,25 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     this.targetMouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
   }
 
+  private onTouchMove(event: TouchEvent): void {
+    if (event.touches.length > 0) {
+      this.targetMouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
+      this.targetMouse.y = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
+    }
+  }
+
   private onWindowResize(): void {
     if (!this.camera || !this.renderer) return;
+    
+    const isMobile = window.innerWidth < 768;
+    this.baseCameraY = isMobile ? 35 : 25;
+    this.baseCameraZ = isMobile ? 45 : 25;
+    
+    if (this.scene) {
+      // Rotate the scene diagonally on mobile so it fits the portrait aspect ratio beautifully
+      this.scene.rotation.y = isMobile ? Math.PI / 4 : 0;
+    }
+
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -330,6 +354,7 @@ export class HeroSectionComponent implements AfterViewInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       window.removeEventListener('resize', this.onWindowResize.bind(this));
       window.removeEventListener('mousemove', this.onMouseMove.bind(this));
+      window.removeEventListener('touchmove', this.onTouchMove.bind(this));
       cancelAnimationFrame(this.animationId);
       
       if (this.renderer) {
