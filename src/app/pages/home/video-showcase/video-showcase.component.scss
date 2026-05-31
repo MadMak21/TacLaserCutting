@@ -1,0 +1,112 @@
+/* ═══════════════════════════════════════
+   Video Showcase — TAC Laser Cutting
+   ═══════════════════════════════════════ */
+
+.video-showcase {
+  position: relative;
+  min-height: 500px;
+  background: var(--bg-tertiary);
+  background-image: 
+    linear-gradient(rgba(10, 12, 16, 0.8), rgba(10, 12, 16, 0.8)),
+    repeating-linear-gradient(45deg, hsla(220, 20%, 30%, 0.1) 0px, hsla(220, 20%, 30%, 0.1) 2px, transparent 2px, transparent 10px),
+    repeating-linear-gradient(-45deg, hsla(220, 20%, 30%, 0.1) 0px, hsla(220, 20%, 30%, 0.1) 2px, transparent 2px, transparent 10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.video-showcase__overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, var(--bg-primary) 100%);
+  pointer-events: none;
+}
+
+.video-showcase__container {
+  position: relative;
+  z-index: 10;
+}
+
+.video-showcase__title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: var(--space-8);
+  color: white;
+}
+
+.video-showcase__player {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  cursor: pointer;
+  margin-bottom: var(--space-12);
+  
+  &:hover {
+    .video-showcase__play-btn {
+      transform: scale(1.1);
+      box-shadow: 0 0 40px hsla(25, 100%, 55%, 0.6);
+      border-color: var(--accent-primary);
+      
+      svg {
+        color: var(--accent-primary);
+      }
+    }
+  }
+}
+
+.video-showcase__play-btn {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  
+  svg {
+    color: white;
+    margin-left: 6px; // Visual center for triangle
+    transition: color var(--transition-normal);
+  }
+}
+
+.video-showcase__text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.video-showcase__features {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+}
+
+.video-showcase__feature {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: hsla(220, 20%, 15%, 0.6);
+  backdrop-filter: blur(10px);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  
+  svg {
+    color: var(--accent-primary);
+  }
+  
+  span {
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+}

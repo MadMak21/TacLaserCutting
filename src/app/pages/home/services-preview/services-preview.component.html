@@ -1,0 +1,38 @@
+<section class="services section">
+  <div class="container">
+    <div class="services__header">
+      <h2 class="services__title">Our <span class="text-gradient">Services</span></h2>
+      <p class="services__subtitle">Comprehensive laser cutting and fabrication solutions tailored to your exact specifications.</p>
+    </div>
+    
+    <div class="grid-3 services__grid">
+      @for (service of services; track service.title) {
+        <div class="services__card glass-card glass-card--hover" #serviceCard>
+          <div class="services__card-bg" [style.background-image]="'url(' + service.image + ')'"></div>
+          <div class="services__card-content">
+            <div class="services__icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path [attr.d]="service.icon"></path>
+              </svg>
+            </div>
+            <h3 class="services__card-title">{{ service.title }}</h3>
+            <p class="services__card-desc">{{ service.description }}</p>
+            <a routerLink="/services" class="services__link">
+              Learn More 
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+      }
+    </div>
+    
+    <div class="services__footer">
+      <a routerLink="/services" class="btn-outline">
+        View All Services
+      </a>
+    </div>
+  </div>
+</section>

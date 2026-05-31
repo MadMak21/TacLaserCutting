@@ -1,0 +1,123 @@
+/* ═══════════════════════════════════════
+   Testimonials — TAC Laser Cutting
+   ═══════════════════════════════════════ */
+
+.testimonials {
+  background: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, hsla(25, 100%, 55%, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+}
+
+.testimonials__header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.testimonials__title {
+  margin: 0;
+}
+
+.testimonials__card {
+  padding: var(--space-8);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.testimonials__quote-icon {
+  color: hsla(25, 100%, 55%, 0.15);
+  margin-bottom: var(--space-4);
+}
+
+.testimonials__stars {
+  display: flex;
+  gap: 4px;
+  color: #fbbf24; // yellow
+  margin-bottom: var(--space-4);
+}
+
+.testimonials__quote {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin: 0 0 var(--space-6);
+  flex-grow: 1;
+}
+
+.testimonials__author {
+  margin-top: auto;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--space-4);
+}
+
+.testimonials__name {
+  font-size: 1.125rem;
+  margin: 0 0 4px;
+  color: var(--accent-primary);
+}
+
+.testimonials__company {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+// ─── Carousel (Mobile) ────────────────
+.testimonials__carousel {
+  overflow: hidden;
+  position: relative;
+}
+
+.testimonials__track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.testimonials__slide {
+  min-width: 100%;
+  padding: 0 var(--space-2);
+}
+
+.testimonials__dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.testimonials__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-subtle);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 0;
+  
+  &.active {
+    background: var(--accent-primary);
+    transform: scale(1.2);
+  }
+}
+
+.desktop-only { display: grid; }
+.mobile-only { display: none; }
+
+@media (max-width: 768px) {
+  .desktop-only { display: none; }
+  .mobile-only { display: block; }
+}

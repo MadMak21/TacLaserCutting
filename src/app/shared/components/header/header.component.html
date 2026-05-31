@@ -1,0 +1,87 @@
+<!-- Scroll Progress Bar -->
+<div class="progress-bar-track">
+  <div class="progress-bar" #progressBar></div>
+</div>
+
+<!-- Header -->
+<header class="header" [class.header--scrolled]="isScrolled()">
+  <div class="header__container">
+    <!-- Logo -->
+    <a routerLink="/" class="header__logo" (click)="closeMobileMenu()">
+      <span class="header__logo-tac">TAC</span>
+      <span class="header__logo-divider"></span>
+      <span class="header__logo-text">LASER CUTTING</span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="header__nav">
+      @for (item of navItems; track item.path) {
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.exact }"
+          class="header__nav-link"
+        >
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+
+    <!-- CTA + Mobile Toggle -->
+    <div class="header__actions">
+      <a routerLink="/quote" class="header__cta">
+        <span>Get a Quote</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+
+      <!-- Mobile Hamburger -->
+      <button
+        class="header__hamburger"
+        [class.header__hamburger--open]="isMobileMenuOpen()"
+        (click)="toggleMobileMenu()"
+        aria-label="Toggle menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Menu Overlay -->
+@if (isMobileMenuOpen()) {
+  <div class="mobile-menu" (click)="closeMobileMenu()">
+    <div class="mobile-menu__content" (click)="$event.stopPropagation()">
+      <nav class="mobile-menu__nav">
+        @for (item of navItems; track item.path; let i = $index) {
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: item.exact }"
+            class="mobile-menu__link"
+            [style.animation-delay]="(i * 0.05) + 's'"
+            (click)="closeMobileMenu()"
+          >
+            {{ item.label }}
+          </a>
+        }
+        <a
+          routerLink="/quote"
+          class="mobile-menu__cta"
+          [style.animation-delay]="(navItems.length * 0.05) + 's'"
+          (click)="closeMobileMenu()"
+        >
+          Get a Free Quote →
+        </a>
+      </nav>
+
+      <div class="mobile-menu__footer">
+        <p>info&#64;taclasercutting.com</p>
+        <p>+91 98765 43210</p>
+      </div>
+    </div>
+  </div>
+}

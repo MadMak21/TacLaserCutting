@@ -1,0 +1,40 @@
+<section class="video-showcase section" id="video-showcase">
+  <!-- Actual Stock Video -->
+  <video 
+    #bgVideo 
+    class="video-showcase__bg-video" 
+    src="https://videos.pexels.com/video-files/3201997/3201997-uhd_2560_1440_25fps.mp4" 
+    muted 
+    loop 
+    playsinline
+    (canplaythrough)="onVideoLoaded()">
+  </video>
+  
+  <div class="video-showcase__overlay">
+    <div class="container video-showcase__container">
+      <div class="video-showcase__content">
+        <h2 class="video-showcase__title">See Precision in Action</h2>
+        
+        <div class="video-showcase__player">
+          <div class="video-showcase__play-btn glass-card" (click)="bgVideo.paused ? bgVideo.play() : bgVideo.pause()">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </div>
+          <p class="video-showcase__text">CNC Laser Cutting Process</p>
+        </div>
+        
+        <div class="video-showcase__features">
+          @for (feature of features; track feature.label) {
+            <div class="video-showcase__feature">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path [attr.d]="feature.icon"></path>
+              </svg>
+              <span>{{ feature.label }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

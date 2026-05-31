@@ -1,0 +1,128 @@
+/* ═══════════════════════════════════════
+   Featured Projects — TAC Laser Cutting
+   ═══════════════════════════════════════ */
+
+.featured-projects {
+  position: relative;
+  background: var(--bg-secondary);
+}
+
+.featured-projects__header {
+  margin-bottom: var(--space-12);
+}
+
+.featured-projects__title {
+  margin: 0;
+}
+
+.featured-projects__grid {
+  margin-bottom: var(--space-8);
+}
+
+.featured-projects__card {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-subtle);
+  
+  &:hover {
+    .featured-projects__image {
+      transform: scale(1.05);
+    }
+    
+    .featured-projects__content {
+      background: linear-gradient(to top, hsla(220, 20%, 8%, 0.9) 0%, hsla(220, 20%, 8%, 0.4) 100%);
+    }
+    
+    .featured-projects__hover-content {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: var(--space-4);
+    }
+  }
+}
+
+.featured-projects__image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.project-gradient-1 { background: linear-gradient(135deg, #2c3e50, #3498db); }
+  &.project-gradient-2 { background: linear-gradient(135deg, #d35400, #f39c12); }
+  &.project-gradient-3 { background: linear-gradient(135deg, #7f8c8d, #bdc3c7); }
+}
+
+.featured-projects__content {
+  position: relative;
+  z-index: 10;
+  padding: var(--space-6);
+  background: linear-gradient(to top, hsla(220, 20%, 8%, 0.8) 0%, transparent 100%);
+  transition: background var(--transition-normal);
+}
+
+.featured-projects__category {
+  display: inline-block;
+  background: var(--accent-gradient);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-3);
+}
+
+.featured-projects__card-title {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.featured-projects__hover-content {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-projects__desc {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  margin: 0 0 var(--space-4);
+}
+
+.featured-projects__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+  
+  svg {
+    transition: transform var(--transition-fast);
+  }
+  
+  &:hover svg {
+    transform: translateX(4px);
+  }
+}
+
+.desktop-only { display: inline-flex; }
+.mobile-only { display: none; }
+
+@media (max-width: 640px) {
+  .desktop-only { display: none; }
+  .mobile-only { 
+    display: block; 
+    text-align: center;
+    margin-top: var(--space-8);
+  }
+}

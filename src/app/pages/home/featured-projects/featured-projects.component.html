@@ -1,0 +1,36 @@
+<section class="featured-projects section">
+  <div class="container">
+    <div class="featured-projects__header flex-between">
+      <h2 class="featured-projects__title">Featured <span class="text-gradient">Projects</span></h2>
+      <a routerLink="/portfolio" class="btn-outline featured-projects__view-all desktop-only">View All Projects</a>
+    </div>
+    
+    <div class="grid-3 featured-projects__grid">
+      @for (project of projects; track project.title) {
+        <div class="featured-projects__card glass-card" #projectCard>
+          <div class="featured-projects__image" [ngClass]="project.gradientClass"></div>
+          
+          <div class="featured-projects__content">
+            <span class="featured-projects__category">{{ project.category }}</span>
+            <h3 class="featured-projects__card-title">{{ project.title }}</h3>
+            
+            <div class="featured-projects__hover-content">
+              <p class="featured-projects__desc">{{ project.description }}</p>
+              <a routerLink="/portfolio" class="featured-projects__link">
+                View Details
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    
+    <div class="featured-projects__footer mobile-only">
+      <a routerLink="/portfolio" class="btn-outline">View All Projects</a>
+    </div>
+  </div>
+</section>

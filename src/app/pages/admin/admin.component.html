@@ -1,0 +1,393 @@
+@if (!isAuthenticated()) {
+  <!-- Login Screen -->
+  <div class="admin-login">
+    <div class="admin-login__card">
+      <div class="admin-login__logo">
+        <span class="admin-login__logo-tac">TAC</span>
+        <span class="admin-login__logo-sub">Admin Panel</span>
+      </div>
+      <form (ngSubmit)="onLogin()" class="admin-login__form">
+        <div class="admin-login__field">
+          <label>Username</label>
+          <input
+            type="text"
+            [ngModel]="loginUsername()"
+            (ngModelChange)="loginUsername.set($event)"
+            name="username"
+            placeholder="Enter username"
+            autocomplete="username"
+          />
+        </div>
+        <div class="admin-login__field">
+          <label>Password</label>
+          <input
+            type="password"
+            [ngModel]="loginPassword()"
+            (ngModelChange)="loginPassword.set($event)"
+            name="password"
+            placeholder="Enter password"
+            autocomplete="current-password"
+          />
+        </div>
+        @if (loginError()) {
+          <p class="admin-login__error">{{ loginError() }}</p>
+        }
+        <button type="submit" class="admin-login__btn">Sign In</button>
+      </form>
+    </div>
+  </div>
+} @else {
+  <!-- Admin Dashboard -->
+  <div class="admin">
+    <!-- Sidebar -->
+    <aside class="admin__sidebar">
+      <div class="admin__sidebar-header">
+        <span class="admin__logo-tac">TAC</span>
+        <span class="admin__logo-sub">CMS</span>
+      </div>
+      <nav class="admin__nav">
+        <button
+          [class.active]="activeTab() === 'dashboard'"
+          (click)="setTab('dashboard')"
+        >
+          📊 Dashboard
+        </button>
+        <button
+          [class.active]="activeTab() === 'projects'"
+          (click)="setTab('projects')"
+        >
+          📁 Projects
+        </button>
+        <button
+          [class.active]="activeTab() === 'testimonials'"
+          (click)="setTab('testimonials')"
+        >
+          💬 Testimonials
+        </button>
+        <button
+          [class.active]="activeTab() === 'quotes'"
+          (click)="setTab('quotes')"
+        >
+          📋 Quotes
+          @if (pendingQuotes() > 0) {
+            <span class="admin__badge">{{ pendingQuotes() }}</span>
+          }
+        </button>
+        <button
+          [class.active]="activeTab() === 'stats'"
+          (click)="setTab('stats')"
+        >
+          📈 Stats
+        </button>
+        <button
+          [class.active]="activeTab() === 'settings'"
+          (click)="setTab('settings')"
+        >
+          ⚙️ Settings
+        </button>
+      </nav>
+      <button class="admin__logout" (click)="onLogout()">🚪 Logout</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin__main">
+      @if (saveMessage()) {
+        <div class="admin__toast">{{ saveMessage() }}</div>
+      }
+
+      <!-- Dashboard Tab -->
+      @if (activeTab() === 'dashboard') {
+        <div class="admin__section">
+          <h1>Dashboard</h1>
+          <div class="admin__stats-grid">
+            <div class="admin__stat-card">
+              <span class="admin__stat-number">{{ projects().length }}</span>
+              <span class="admin__stat-label">Total Projects</span>
+            </div>
+            <div class="admin__stat-card">
+              <span class="admin__stat-number">{{ testimonials().length }}</span>
+              <span class="admin__stat-label">Testimonials</span>
+            </div>
+            <div class="admin__stat-card admin__stat-card--accent">
+              <span class="admin__stat-number">{{ pendingQuotes() }}</span>
+              <span class="admin__stat-label">Pending Quotes</span>
+            </div>
+            <div class="admin__stat-card">
+              <span class="admin__stat-number">{{ quotes().length }}</span>
+              <span class="admin__stat-label">Total Quotes</span>
+            </div>
+          </div>
+
+          <h2>Recent Quotes</h2>
+          <div class="admin__table-wrap">
+            <table class="admin__table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Service</th>
+                  <th>Material</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (quote of quotes().slice(0, 5); track quote.id) {
+                  <tr>
+                    <td>{{ quote.name }}</td>
+                    <td>{{ quote.service }}</td>
+                    <td>{{ quote.material }}</td>
+                    <td>
+                      <span class="admin__status admin__status--{{ quote.status }}">
+                        {{ quote.status }}
+                      </span>
+                    </td>
+                    <td>{{ quote.createdAt | date:'short' }}</td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="5" class="admin__empty">No quotes yet</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      <!-- Projects Tab -->
+      @if (activeTab() === 'projects') {
+        <div class="admin__section">
+          <div class="admin__section-header">
+            <h1>Projects</h1>
+          </div>
+          <div class="admin__table-wrap">
+            <table class="admin__table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Material</th>
+                  <th>Featured</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (project of projects(); track project.id) {
+                  <tr>
+                    <td>{{ project.title }}</td>
+                    <td>
+                      <span class="admin__badge-cat">{{ project.category }}</span>
+                    </td>
+                    <td>{{ project.specs.material }}</td>
+                    <td>
+                      <button
+                        class="admin__toggle"
+                        [class.active]="project.featured"
+                        (click)="toggleProjectFeatured(project)"
+                      >
+                        {{ project.featured ? '★' : '☆' }}
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        class="admin__btn-danger"
+                        (click)="deleteProject(project.id)"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      <!-- Testimonials Tab -->
+      @if (activeTab() === 'testimonials') {
+        <div class="admin__section">
+          <div class="admin__section-header">
+            <h1>Testimonials</h1>
+          </div>
+          <div class="admin__cards-grid">
+            @for (test of testimonials(); track test.id) {
+              <div class="admin__testimonial-card">
+                <p class="admin__testimonial-quote">"{{ test.quote }}"</p>
+                <p class="admin__testimonial-author">
+                  — {{ test.clientName }}, {{ test.company }}
+                </p>
+                <div class="admin__testimonial-stars">
+                  @for (star of [1, 2, 3, 4, 5]; track star) {
+                    <span>{{ star <= test.rating ? '★' : '☆' }}</span>
+                  }
+                </div>
+                <button
+                  class="admin__btn-danger"
+                  (click)="deleteTestimonial(test.id)"
+                >
+                  Delete
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Quotes Tab -->
+      @if (activeTab() === 'quotes') {
+        <div class="admin__section">
+          <h1>Quote Requests</h1>
+          <div class="admin__table-wrap">
+            <table class="admin__table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Service</th>
+                  <th>Material</th>
+                  <th>Qty</th>
+                  <th>Urgency</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (quote of quotes(); track quote.id) {
+                  <tr>
+                    <td>{{ quote.name }}</td>
+                    <td>{{ quote.email }}</td>
+                    <td>{{ quote.service }}</td>
+                    <td>{{ quote.material }}</td>
+                    <td>{{ quote.quantity }}</td>
+                    <td>
+                      <span class="admin__urgency admin__urgency--{{ quote.urgency }}">
+                        {{ quote.urgency }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="admin__status admin__status--{{ quote.status }}">
+                        {{ quote.status }}
+                      </span>
+                    </td>
+                    <td>
+                      <select
+                        (change)="updateQuoteStatus(quote.id, $any($event.target).value)"
+                        [value]="quote.status"
+                      >
+                        <option value="new">New</option>
+                        <option value="in-review">In Review</option>
+                        <option value="quoted">Quoted</option>
+                        <option value="accepted">Accepted</option>
+                        <option value="rejected">Rejected</option>
+                      </select>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="8" class="admin__empty">No quote requests yet</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      <!-- Stats Tab -->
+      @if (activeTab() === 'stats') {
+        <div class="admin__section">
+          <h1>Stats Configuration</h1>
+          <div class="admin__form-grid">
+            <div class="admin__field">
+              <label>Years Experience</label>
+              <input
+                type="number"
+                [ngModel]="statsForm().years"
+                (ngModelChange)="statsForm.update(f => ({...f, years: $event}))"
+                name="years"
+              />
+            </div>
+            <div class="admin__field">
+              <label>Projects Completed</label>
+              <input
+                type="number"
+                [ngModel]="statsForm().projects"
+                (ngModelChange)="statsForm.update(f => ({...f, projects: $event}))"
+                name="projects"
+              />
+            </div>
+            <div class="admin__field">
+              <label>Materials</label>
+              <input
+                type="number"
+                [ngModel]="statsForm().materials"
+                (ngModelChange)="statsForm.update(f => ({...f, materials: $event}))"
+                name="materials"
+              />
+            </div>
+            <div class="admin__field">
+              <label>Industries Served</label>
+              <input
+                type="number"
+                [ngModel]="statsForm().industries"
+                (ngModelChange)="statsForm.update(f => ({...f, industries: $event}))"
+                name="industries"
+              />
+            </div>
+          </div>
+          <button class="admin__btn-save" (click)="saveStats()">Save Stats</button>
+        </div>
+      }
+
+      <!-- Settings Tab -->
+      @if (activeTab() === 'settings') {
+        <div class="admin__section">
+          <h1>Site Settings</h1>
+          <div class="admin__form-grid">
+            <div class="admin__field">
+              <label>WhatsApp Number</label>
+              <input
+                type="text"
+                [ngModel]="settingsForm().whatsappNumber"
+                (ngModelChange)="settingsForm.update(f => ({...f, whatsappNumber: $event}))"
+                name="whatsapp"
+                placeholder="919876543210"
+              />
+            </div>
+            <div class="admin__field">
+              <label>Inquiry Email</label>
+              <input
+                type="email"
+                [ngModel]="settingsForm().inquiryEmail"
+                (ngModelChange)="settingsForm.update(f => ({...f, inquiryEmail: $event}))"
+                name="email"
+              />
+            </div>
+            <div class="admin__field">
+              <label>Phone Display</label>
+              <input
+                type="text"
+                [ngModel]="settingsForm().phoneDisplay"
+                (ngModelChange)="settingsForm.update(f => ({...f, phoneDisplay: $event}))"
+                name="phone"
+              />
+            </div>
+            <div class="admin__field admin__field--full">
+              <label>Address</label>
+              <input
+                type="text"
+                [ngModel]="settingsForm().address"
+                (ngModelChange)="settingsForm.update(f => ({...f, address: $event}))"
+                name="address"
+              />
+            </div>
+          </div>
+          <button class="admin__btn-save" (click)="saveSettings()">
+            Save Settings
+          </button>
+        </div>
+      }
+    </main>
+  </div>
+}

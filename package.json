@@ -17,13 +17,21 @@
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
+    "@lucide/angular": "^1.17.0",
+    "@supabase/supabase-js": "^2.106.2",
+    "@tsparticles/angular": "^4.1.1",
+    "@tsparticles/engine": "^4.1.1",
+    "@tsparticles/slim": "^4.1.1",
+    "gsap": "^3.15.0",
     "rxjs": "~7.8.0",
+    "three": "^0.184.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular/build": "^21.2.13",
     "@angular/cli": "^21.2.13",
     "@angular/compiler-cli": "^21.2.0",
+    "@types/three": "^0.184.1",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2"
   }

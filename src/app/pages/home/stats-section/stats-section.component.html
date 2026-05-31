@@ -1,0 +1,21 @@
+<section class="stats section">
+  <div class="container">
+    <div class="grid-4 stats__grid">
+      @for (stat of stats; track stat.label) {
+        <div class="stats__card glass-card glass-card--hover">
+          <div class="stats__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path [attr.d]="stat.icon"></path>
+            </svg>
+          </div>
+          <div class="stats__content">
+            <h3 class="stats__number">
+              <span #statNumber>0</span><span class="text-gradient">{{ stat.suffix }}</span>
+            </h3>
+            <p class="stats__label">{{ stat.label }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
