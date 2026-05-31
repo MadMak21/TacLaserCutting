@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
               </div>
               <div class="method-details">
                 <h3>Our Facility</h3>
-                <p>123 Industrial Estate, Phase 2<br>Surat, Gujarat 395002<br>India</p>
+                <p>Triveni Arts & Craft<br>Bhavnagar, Gujarat<br>India</p>
               </div>
             </div>
 
@@ -52,14 +52,22 @@ import { CommonModule } from '@angular/common';
             </div>
           </div>
 
-          <!-- Map Placeholder -->
-          <div class="map-container glass-card">
-            <div class="map-placeholder">
-              <div class="map-marker">
-                <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                <span>TAC Laser Cutting Facility</span>
+          <!-- Grayscale Google Map with Glass Overlay -->
+          <div class="map-container">
+            <iframe 
+              src="https://maps.google.com/maps?q=Triveni%20Arts%20%26%20Craft%20Bhavnagar&t=&z=14&ie=UTF8&iwloc=&output=embed"
+              width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"
+              class="map-iframe">
+            </iframe>
+            <div class="map-overlay">
+              <div class="glass-card location-card">
+                <span class="eyebrow">VISIT OUR LOCATION</span>
+                <h2>TAC LASER CUTTING</h2>
+                <p>Triveni Arts & Craft<br>Bhavnagar, Gujarat<br>India</p>
+                <a href="https://google.com/maps/place/Triveni+Arts+%26+Craft/data=!4m2!3m1!1s0x0:0x1e506accebd84b7a?sa=X&ved=1t:2428&ictx=111" 
+                   target="_blank" rel="noopener noreferrer" 
+                   class="btn btn-map">OPEN IN GOOGLE MAPS</a>
               </div>
-              <p>Google Maps Integration Here</p>
             </div>
           </div>
         </div>
@@ -122,34 +130,87 @@ import { CommonModule } from '@angular/common';
     }
     
     .map-container {
-      padding: var(--space-4);
+      position: relative;
       height: 100%;
-      min-height: 400px;
+      min-height: 500px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
     }
     
-    .map-placeholder {
+    .map-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      background: var(--bg-tertiary);
-      border-radius: var(--radius-lg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-secondary);
-      background-image: radial-gradient(var(--border-subtle) 1px, transparent 1px);
-      background-size: 20px 20px;
+      /* Turn the map dark and grayscale */
+      filter: grayscale(100%) invert(90%) contrast(85%);
+      pointer-events: none; /* Make it a background only */
     }
     
-    .map-marker {
+    .map-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(17, 19, 24, 0.3); /* Slight darkening over the map */
+    }
+    
+    .location-card {
+      text-align: center;
+      padding: var(--space-8);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--space-2);
-      margin-bottom: var(--space-4);
-      
-      svg { width: 48px; height: 48px; }
-      span { font-weight: 600; color: var(--text-primary); }
+      width: 90%;
+      max-width: 450px;
+      background: rgba(30, 33, 40, 0.85); /* Slightly more opaque glass */
+      backdrop-filter: blur(12px);
+    }
+    
+    .location-card .eyebrow {
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+    
+    .location-card h2 {
+      font-size: 2rem;
+      margin: var(--space-2) 0;
+      color: var(--text-primary);
+    }
+    
+    .location-card p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-6);
+    }
+    
+    .btn-map {
+      background: white;
+      color: black;
+      font-weight: 700;
+      width: 100%;
+      border-radius: 30px; /* Pill shape like screenshot */
+      padding: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn-map:hover {
+      background: var(--text-secondary);
+      color: white;
+      transform: translateY(-2px);
     }
   `]
 })

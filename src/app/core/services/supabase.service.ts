@@ -116,7 +116,7 @@ export class SupabaseService {
         whatsappNumber: '9687817730',
         inquiryEmail: '',
         phoneDisplay: '+91 98765 43210',
-        address: 'TAC Laser Cutting, Surat, Gujarat, India',
+        address: 'TAC Laser Cutting, Bhavnagar, Gujarat, India',
         socialLinks: {
           facebook: 'https://facebook.com/taclasercutting',
           instagram: 'https://instagram.com/taclasercutting',
