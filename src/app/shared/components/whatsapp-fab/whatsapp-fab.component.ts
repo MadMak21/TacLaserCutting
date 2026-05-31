@@ -8,9 +8,5 @@ import { SupabaseService } from '../../../core/services/supabase.service';
   styleUrl: './whatsapp-fab.component.scss'
 })
 export class WhatsappFabComponent {
-  private supabase = inject(SupabaseService);
-  
-  get whatsappNumber() {
-    return this.supabase.settings().whatsappNumber;
-  }
+  constructor(private supabase: SupabaseService) {}
 }
