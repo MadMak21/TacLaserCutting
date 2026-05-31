@@ -60,14 +60,10 @@ import { CommonModule } from '@angular/common';
               class="map-iframe">
             </iframe>
             <div class="map-overlay">
-              <div class="glass-card location-card">
-                <span class="eyebrow">VISIT OUR LOCATION</span>
-                <h2>TAC LASER CUTTING</h2>
-                <p>Triveni Arts & Craft<br>Bhavnagar, Gujarat<br>India</p>
-                <a href="https://google.com/maps/place/Triveni+Arts+%26+Craft/data=!4m2!3m1!1s0x0:0x1e506accebd84b7a?sa=X&ved=1t:2428&ictx=111" 
-                   target="_blank" rel="noopener noreferrer" 
-                   class="btn btn-map">OPEN IN GOOGLE MAPS</a>
-              </div>
+              <a href="https://google.com/maps/place/Triveni+Arts+%26+Craft/data=!4m2!3m1!1s0x0:0x1e506accebd84b7a?sa=X&ved=1t:2428&ictx=111" target="_blank" class="map-marker-btn glass-card">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span>TAC Laser Cutting Facility</span>
+              </a>
             </div>
           </div>
         </div>
@@ -158,59 +154,28 @@ import { CommonModule } from '@angular/common';
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(17, 19, 24, 0.3); /* Slight darkening over the map */
+      background: rgba(17, 19, 24, 0.2); /* Slight darkening over the map */
+      pointer-events: none; /* Let user drag the map if they want */
     }
     
-    .location-card {
-      text-align: center;
-      padding: var(--space-8);
+    .map-marker-btn {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 90%;
-      max-width: 450px;
-      background: rgba(30, 33, 40, 0.85); /* Slightly more opaque glass */
-      backdrop-filter: blur(12px);
-    }
-    
-    .location-card .eyebrow {
-      font-size: 0.85rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      font-weight: 600;
-    }
-    
-    .location-card h2 {
-      font-size: 2rem;
-      margin: var(--space-2) 0;
-      color: var(--text-primary);
-    }
-    
-    .location-card p {
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: var(--space-6);
-    }
-    
-    .btn-map {
-      background: white;
-      color: black;
-      font-weight: 700;
-      width: 100%;
-      border-radius: 30px; /* Pill shape like screenshot */
-      padding: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all var(--transition-fast);
+      gap: var(--space-2);
+      padding: var(--space-4) var(--space-6);
+      border-radius: var(--radius-lg);
       text-decoration: none;
-      display: inline-block;
+      pointer-events: auto; /* Re-enable clicks for the button */
+      transition: transform var(--transition-fast), border-color var(--transition-fast);
+      
+      svg { width: 48px; height: 48px; }
+      span { font-weight: 600; color: var(--text-primary); }
     }
     
-    .btn-map:hover {
-      background: var(--text-secondary);
-      color: white;
-      transform: translateY(-2px);
+    .map-marker-btn:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-primary);
     }
   `]
 })
